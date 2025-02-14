@@ -8,7 +8,7 @@ This API provides endpoints for monitoring system metrics, managing alerts, and 
 
 Base URL
 
-http://<your-deployment-url>/api
+http://DeploymentURL/api
 
 Endpoints
 
@@ -22,16 +22,20 @@ GET /api/alerts
 
 Response:
 
-[
-  {
-    "id": 1,
+  
+  
+    [{"id": 1,
+    
     "metricType": "CPU",
+    
     "threshold": 80.0,
+    
     "actualValue": 85.5,
+    
     "status": "ACTIVE",
-    "timestamp": "2025-02-14T10:15:30"
-  }
-]
+    
+    "timestamp": "2025-02-14T10:15:30"}]
+  
 
 🔹 Get Active Alerts
 
@@ -50,6 +54,7 @@ GET /api/alerts/resolved
 Request:
 
 POST /api/alerts
+
 Content-Type: application/json
 
 Body:
@@ -79,6 +84,7 @@ Response:
 Request:
 
 POST /api/metadata
+
 Content-Type: application/json
 
 Body:
@@ -100,6 +106,7 @@ GET /api/metadata
 Request:
 
 PUT /api/metadata/{id}
+
 Content-Type: application/json
 
 Body:
@@ -151,6 +158,7 @@ GET /api/metrics/history
 Request:
 
 POST /api/thresholds
+
 Content-Type: application/json
 
 Body:
