@@ -2,6 +2,8 @@ Deployment URL: https://system-health-monitor-and-alert-prod.onrender.com
 
 System Health Monitor and Alert API
 
+Using Springboot, postgres, pgAdmin, render, insomnia
+
 Overview
 
 This API provides endpoints for monitoring system metrics, managing alerts, and configuring thresholds. It enables users to track CPU, memory, and disk usage, set thresholds for alerts, and retrieve real-time and historical system data.
@@ -204,3 +206,80 @@ There are two schedulers running in AlertService one for checking the live metri
 SystemMetricsCollector is for getting the live system statistics.
 
 SystemMetricsService is for directing information to SystemMetricsCollector and every 10 one minute storing the live metrics in systemmetrics table.
+
+Metrics are logged into the table at every 1 minute and metrics more than 6 hours ago are deleted. The alerts if any are created every 20 seconds and are set to resolved every 30 seconds.
+
+there are 4 tables:
+
+    1. 
+    @Table(name = "alerts")
+    public class Alert {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @Column(name = "metrictype")
+    private String metricType; // CPU, MEMORY, DISK
+    @Column(name = "threshold")
+    private Double threshold;  // e.g., 80% for CPU
+    @Column(name = "actualvalue")
+    private Double actualValue;
+    @Column(name = "status")
+    private String status; // "ACTIVE" or "RESOLVED"
+    @Column(name = "timestamp")
+    private LocalDateTime timestamp;
+    @Column(name = "thresholdcomparisontype")
+    private String thresholdComparisonType;
+    }
+
+
+    2. 
+    @Table(name = "metadata")
+    public class Metadata {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @Column(name = "name")
+    private String name;
+    @Column(name = "environment")
+    private String environment;
+    @Column(name = "location")
+    private String location;
+    }
+
+
+    3. 
+    @Table(name = "system_metrics")
+    public class SystemMetrics {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "cpuusage")
+    private double cpuUsage;
+    @Column(name = "memoryusage")
+    private double memoryUsage;
+    @Column(name = "diskusage")
+    private double diskUsage;
+    @Column(name = "timestamp")
+    private LocalDateTime timestamp;
+    }
+
+
+    4. 
+    @Table(name = "thresholds")
+    public class Threshold {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "metrictype")
+    private String metricType; // e.g., CPU, MEMORY, DISK
+    @Column(name = "thresholdvalue")
+    private Double thresholdValue;
+    @Column(name = "comparisontype")
+    private String comparisonType; // GREATER or SMALLER
+    } 
+    
