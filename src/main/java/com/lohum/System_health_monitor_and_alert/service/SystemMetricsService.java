@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.List;
 
 @Service
@@ -37,5 +38,11 @@ public class SystemMetricsService {
     @Scheduled(fixedRate = 60000) // Runs every 60 seconds
     public void saveMetricsPeriodically() {
         saveMetrics();
+    }
+
+    @Scheduled(fixedRate = 3600000) // Runs every hour
+    public void deleteOldMetrics() {
+        Instant sixHoursAgo = Instant.now().minusSeconds(6 * 3600);
+        systemMetricsRepository.deleteByTimestampBefore(sixHoursAgo);
     }
 }
