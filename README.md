@@ -197,3 +197,8 @@ To deploy this API on Render or another cloud provider, ensure Java 17+ is used 
 
 
 WORKED ON SPRINGBOOT DURING WORK EXPERIENCE, USED CHATGPT TO GET THE IMPLEMENTATION HELP.
+
+
+There are two schedulers running in AlertService one for checking the live metric detection and condition checking. Other is for resolving the status of ACTIVE alerts stored in database. 
+SystemMetricsCollector is for getting the live system statistics.
+SystemMetricsService is for directing information to SystemMetricsCollector and every 10 one minute storing the live metrics in systemmetrics table.
