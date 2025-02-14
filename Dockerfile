@@ -1,5 +1,5 @@
-# Use OpenJDK 17 slim as base image
-FROM openjdk:17-jdk-slim AS builder
+# Use OpenJDK 21 as base image for building
+FROM openjdk:21-jdk-slim AS builder
 
 # Set the working directory
 WORKDIR /app
@@ -20,7 +20,7 @@ COPY src src
 RUN ./mvnw package -DskipTests
 
 # Use a separate image for running the app
-FROM openjdk:17-jdk-slim
+FROM openjdk:21-jdk-slim
 
 WORKDIR /app
 COPY --from=builder /app/target/*.jar app.jar
