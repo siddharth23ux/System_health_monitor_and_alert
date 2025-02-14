@@ -1,4 +1,4 @@
-Deployment URL: https://system-health-monitor-and-alert.onrender.com
+Deployment URL: https://system-health-monitor-and-alert-prod.onrender.com
 
 System Health Monitor and Alert API
 
